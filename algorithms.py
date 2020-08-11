@@ -1,3 +1,6 @@
+import time
+from console import fg, bg, fx
+
 def bubble_sort(arr):
     def swap(i, j):
         arr[i], arr[j] = arr[j], arr[i]
@@ -11,28 +14,36 @@ def bubble_sort(arr):
         x = x + 1
         for i in range(1, n-x):
             if arr[i - 1] > arr[i]:
+                time.sleep(0.1)
+                representation(arr, i-1, i)
                 swap(i - 1, i)
-                print(arr)
-                swapped = True
-                    
+                swapped = True         
     return arr
 
+def representation(array, small_index, big_index):
+    print("[", end="")
+    for j in range(len(array)):
+        if j == big_index:
+            print(fg.blue + str(array[big_index]) + fg.default, end=", " if j != len(array)-1 else "]")
+        elif j==small_index:
+            print(fg.red + str(array[small_index]) + fg.default, end=", " if j != len(array)-1 else "]")
+        else:
+            print(array[j], end=", " if j != len(array)-1 else "]")
+    print()
 
 def selection_sort(arr):      
-    print(arr)  
     for i in range(len(arr)):
         minimum = i
-        print("Iteración",i)
         for j in range(i + 1, len(arr)):
             # Select the smallest value
             if arr[j] < arr[minimum]:
-                minimum = j
-                print("Buscando el mínimo",arr[j])
-
+                minimum = j 
         # Place it at the front of the 
         # sorted end of the array
+        time.sleep(0.1)
+        representation(arr, i, minimum)
         arr[minimum], arr[i] = arr[i], arr[minimum]
-        print(arr)
+        
     return arr
 
 def insertion_sort(arr):
@@ -40,16 +51,16 @@ def insertion_sort(arr):
     for i in range(len(arr)):
         cursor = arr[i]
         pos = i
-        print("Iteración", i)
-        print("Moviendo", cursor)
         while pos > 0 and arr[pos - 1] > cursor:
             # Swap the number down the list
+            time.sleep(0.1)
+            representation(arr, pos-1,pos)
             arr[pos] = arr[pos - 1]
             pos = pos - 1
 
         # Break and do the final swap
+        representation(arr, pos,i)
         arr[pos] = cursor
-        print(arr)
     return arr
 def merge_sort(arr):
     # The last array split
@@ -70,9 +81,11 @@ def merge(left, right, merged):
       
         # Sort each one and place into the result
         if left[left_cursor] <= right[right_cursor]:
+            representation(left+right,left_cursor+right_cursor, left_cursor )
             merged[left_cursor+right_cursor]=left[left_cursor]
             left_cursor += 1
         else:
+            representation(left+right,left_cursor+right_cursor, right_cursor )
             merged[left_cursor + right_cursor] = right[right_cursor]
             right_cursor += 1
             
